@@ -1,27 +1,21 @@
 import { Router } from "express";
-import { UserController } from "../controllers/customer.controller";
+import { CustomerController } from "../controllers/customerController";
 
 export class UserRoutes {
-  router: Router;
-  private userController:UserController;
+  private router: Router;
+  private customerController:CustomerController;
 
   constructor() {
     this.router = Router();
-    this.userController = new UserController();
+    this.customerController = new CustomerController();
   }
 
   public intializeRoutes() {
-    this.router.get('/api/v1/users', (req, res, next) => {
-      this.userController.updateUser(req, res, next);
+    this.router.get('/api/v1/customers/:id', (req, res) => {
+      this.customerController.getPolicyDetailsById(req, res);
     });
-    // this.router.post('/internal/api/v1/users', (req, res, next) => {
-    //   this.userController.createUser(req, res, next)
-    // });
-    // this.router.put('/internal/api/v1/users/:id', (req, res, next) => {
-    //   this.userController.updateUser(req, res, next)
-    // });
-    // this.router.delete('/internal/api/v1/users/:id', (req, res, next) => {
-    //   this.userController.deleteUser(req, res, next)
-    // });
+    this.router.put('/api/v1/customers/:id', (req, res) => {
+      this.customerController.updatePolicyDetails(req, res)
+    });
   }
 }

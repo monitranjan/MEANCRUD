@@ -8,46 +8,28 @@ export class CustomerRepository {
         this.dbConnection = new DbConnection();
     }
 
-    async initCustomerRepo(){
+    async initCustomerRepo() {
         this.dbConnect = await this.dbConnection.dbConnect();
     }
 
-    async getUserByEmail(email: string) {
+    async getPolicyById(id: string) {
         try {
-            
+            console.log(id)
+            let user = await this.dbConnect.collection("customers").findOne(
+                {$or:[{"Policy_id": id},{"Customer_id":id}]}
+            );
+            console.log(user)
+            return user;
         } catch (error) {
             throw error;
         }
     }
 
-    async getUserById(userId: number) {
+    async updatePolicy(id: string) {
         try {
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async createUser() {
-        try {
-        
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async updateUser() {
-        try {
-            let result = await this.dbConnect.collection("customers").updateOne({"Policy_id" : "12346"}, {$set:{"Fuel" : "CNG1"}});
+            let result = await this.dbConnect.collection("customers").updateOne(
+                { "Policy_id": id }, { $set: { "Fuel": "CNG1" } });
             return result;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async deleteUser(email: string) {
-        try {
-        
         } catch (error) {
             throw error;
         }
